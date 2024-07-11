@@ -1,0 +1,11 @@
+5,linear
+200,swish
+120,swish
+250,swish
+230,swish
+220,elu
+260,selu
+200,elu
+100,selu
+240,elu
+1,linear
