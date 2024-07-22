@@ -23,6 +23,15 @@ def R_squared(y, y_pred):
 
     return r2
 
+def correctValue(values):
+    corrected = (values - 101325) / 1000
+    return corrected
+
+def correctValueList(valueList):
+    arr = np.array(valueList)
+    corrected = (arr - 101325) / 1000
+    return corrected
+
 class MachineLearner:
     def __init__(self):
         self.modelLoaded = False
@@ -395,16 +404,16 @@ class MLWindow(QMainWindow):
         self.editBatch.setFixedWidth(100)
         epochLabel = QLabel('Epoch')
         epochLabel.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-        self.editEpoch = QLineEdit('100')
+        self.editEpoch = QLineEdit('200')
         self.editEpoch.setFixedWidth(100)
         lrLabel = QLabel('Learning Rate')
         self.editLR = QLineEdit('0.0003')
         self.editLR.setFixedWidth(100)
         self.cbVerbose = QCheckBox('Verbose')
-        # self.cbVerbose.setChecked(True)
+        self.cbVerbose.setChecked(True)
 
         splitLabel = QLabel('Split for Validation (0 means no split-data for validation)')
-        self.editSplit = QLineEdit('0')
+        self.editSplit = QLineEdit('0.2')
         self.editSplit.setFixedWidth(100)
         self.cbSKLearn = QCheckBox('use sklearn split')
         self.cbSKLearn.setChecked(True)
@@ -769,7 +778,9 @@ class MLWindow(QMainWindow):
         plt.figure()
         for i in range(numSensors):
             t_data = self.time_data
-            s_data = self.southSensors[i]
+            s_data_raw = self.southSensors[i]
+
+            s_data = correctValue(s_data_raw)
 
             max_val = max(s_data)
             smax_val = format(max_val, '.2f')
@@ -1132,20 +1143,12 @@ class MLWindow(QMainWindow):
         QApplication.restoreOverrideCursor()
 
     def saveModel(self):
-        suggestion = ''
-        filename = ''
-        h5checked = self.cbH5Format.isChecked()
-        if h5checked == True:
-            suggestion = '/srv/MLData/newModel.h5'
-            filename = QFileDialog.getSaveFileName(self, 'Save Model File', suggestion, filter="h5 file (*.h5)")
-        else:
-            suggestion = '/srv/MLData'
-            filename = QFileDialog.getSaveFileName(self, 'Save File', suggestion, "Model")
-
+        suggestion = '/srv/MLData/tfModel.h5'
+        filename = QFileDialog.getSaveFileName(self, 'Save Model File', suggestion, filter="h5 file (*.h5)")
         if filename[0] != '':
             self.modelLearner.saveModel(filename[0])
 
-            QMessageBox.information(self, 'Saved', 'Model is saved.')
+        QMessageBox.information(self, 'Saved', 'Model is saved.')
 
     def loadModel(self):
         fname = QFileDialog.getOpenFileName(self, 'Open h5 model file', '/srv/MLData',
@@ -1300,7 +1303,9 @@ class MLWindow(QMainWindow):
         plt.figure()
         for i in range(len(y_array)):
             t_data = self.time_data
-            s_data = y_array[i]
+            s_data_raw = y_array[i]
+
+            s_data = correctValueList(s_data_raw)
 
             distHeight = distHeightArray[i]
             lab = sDistHeightArray[i]

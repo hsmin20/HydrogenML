@@ -26,6 +26,15 @@ def R_squared(y, y_pred):
 
     return r2
 
+def correctValue(values):
+    corrected = (values - 101325) / 1000
+    return corrected
+
+def correctValueList(valueList):
+    arr = np.array(valueList)
+    corrected = (arr - 101325) / 1000
+    return corrected
+
 class MachineLearner:
     def __init__(self):
         self.modelLoaded = False
@@ -833,7 +842,9 @@ class MLWindow(QMainWindow):
         plt.figure()
         for i in range(numSensors):
             t_data = self.time_data
-            s_data = self.southSensors[i]
+            s_data_raw = self.southSensors[i]
+
+            s_data = correctValue(s_data_raw)
 
             max_val = max(s_data)
             smax_val = format(max_val, '.2f')
@@ -1311,10 +1322,9 @@ class MLWindow(QMainWindow):
         plt.figure()
         for i in range(len(y_array)):
             t_data = self.time_data
-            s_data = y_array[i]
-            # t_data = []
-            # for no in range(len(s_data)):
-            #     t_data.append(no)
+            s_data_raw = y_array[i]
+
+            s_data = correctValueList(s_data_raw)
 
             distBarrierPos = distBarrierPosArray[i]
             lab = sDistBarrierPosArray[i]
@@ -1322,14 +1332,11 @@ class MLWindow(QMainWindow):
             distance = distBarrierPos[0]
             barrierPos = distBarrierPos[1]
 
-            # index_at_max = max(range(len(s_data)), key=s_data.__getitem__)
             overpressure = max(s_data)
-            # impulse, index_at_zero = self.getImpulseAndIndexZero(s_data)
 
             dispLabel = lab #+ '/op=' + format(overpressure[0], '.2f') + '/impulse=' + format(impulse, '.2f')
 
-            resultArray.append(str(distance) + ',' + str(barrierPos)) # + ',' + ',' +
-                               # format(overpressure[0], '.6f')) + ',' + str(index_at_zero) + ',' + format(impulse, '.6f'))
+            resultArray.append(str(distance) + ',' + str(barrierPos))
 
             plt.scatter(t_data, s_data, label=dispLabel, s=1)
 
