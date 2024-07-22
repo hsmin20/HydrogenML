@@ -1252,21 +1252,44 @@ class MLWindow(QMainWindow):
 
         resultArray = self.showPredictionGraphs(sDistBarrierPosArray, distBarrierPosArray, y_array)
 
-        reply = QMessageBox.question(self, 'Message', 'Do you want to save overpressure and impulse to a file?',
+        reply = QMessageBox.question(self, 'Message', 'Do you want to save pressureto a file?',
                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
         if reply == QMessageBox.Yes:
-            suggestion = '/srv/MLData/opAndImpulse.csv'
+            suggestion = '/srv/MLData/Prediction.csv'
             filename = QFileDialog.getSaveFileName(self, 'Save File', suggestion, "CSV Files (*.csv)")
 
             if filename[0] != '':
                 file = open(filename[0], 'w')
 
-                column1 = 'distance,height,indexAtMax,overpressure,indexAtZero,impulse\n'
+                column1 = 'id, time,'
+                for i in range(len(sDistBarrierPosArray)):
+                    distBarrierPos = sDistBarrierPosArray[i]
+                    # dist = distBarrierPos[0]
+                    # bpos = distBarrierPos[1]
+                    column1 = column1 + distBarrierPos
+
+                    if i != (len(sDistBarrierPosArray) -1):
+                        column1 = column1 + ','
+                    else:
+                        column1 = column1 + '\n'
+
                 file.write(column1)
 
-                for col in resultArray:
-                    file.write(col+'\n')
+                s_data_raw = y_array[0]
+                data_length = len(s_data_raw)
+
+                t_data = self.time_data
+                for j in range(data_length):
+                    line = str(j + 1) + ',' + str(t_data[j])
+                    for i in range(len(y_array)):
+                        s_data_raw = y_array[i][j]
+                        s_data = correctValue(s_data_raw[0])
+
+                        line = line + ',' + str(s_data)
+
+                    line = line + '\n'
+                    file.write(line)
 
     def unnormalize(self, data, max, min):
         for i in range(len(data)):
