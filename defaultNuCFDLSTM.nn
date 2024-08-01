@@ -1,5 +1,5 @@
+200,LSTM
+200,LSTM
 100,LSTM
-100,LSTM
-50,LSTM
 8,relu
 1,linear
