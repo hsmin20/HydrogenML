@@ -53,7 +53,7 @@ class TransformerMachineLearner(MachineLearner):
         for _ in range(numTransBlocks):
             x = self.transformerEncoder(x, headSize, numHeads, ffDim, dropout)
 
-        x = layers.GlobalAveragePooling2D(data_format="channels_first")(x)
+        x = layers.GlobalAveragePooling2D(data_format="channels_last")(x)
         for dim in mlpUnits:
             x = layers.Dense(dim, activation="relu")(x)
             x = layers.Dropout(mlpDropout)(x)
@@ -99,7 +99,7 @@ class TransformerWindow(LSTMWindow):
         self.cbEarlyStop = QCheckBox('Use Early Stopping (validation data)')
 
         widsizeLabel = QLabel('Window Size')
-        self.editWidSize = QLineEdit('20')
+        self.editWidSize = QLineEdit('10')
         self.editWidSize.setFixedWidth(100)
         tmMultiLabel = QLabel('Time Multiplier')
         self.editTmMulti = QLineEdit('7.5')

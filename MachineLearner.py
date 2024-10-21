@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
+import tensorflowjs as tfjs
 from sklearn.metrics import r2_score
 
 NUM_DATA = 1000
@@ -67,6 +68,10 @@ class MachineLearner:
     def saveModel(self, foldername):
         if self.modelLoaded == True:
             self.model.save(foldername, save_format="h5")
+
+    def saveModelJS(self, filename):
+        if self.modelLoaded == True:
+            tfjs.converters.save_keras_model(self.model, filename)
 
     def loadModel(self, foldername):
         self.model = keras.models.load_model(foldername)

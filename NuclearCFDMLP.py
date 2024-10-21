@@ -5,7 +5,6 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 import tensorflow as tf
-from tensorflow import keras
 from PyQt5.QtWidgets import QApplication, QFileDialog, QGridLayout, QLabel, QLineEdit, QMessageBox, QCheckBox, QProgressBar
 from PyQt5.QtCore import Qt
 import time
