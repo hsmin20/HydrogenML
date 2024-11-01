@@ -207,7 +207,7 @@ class MLWindow(QMainWindow):
         item = QTableWidgetItem('')
         self.tableGridWidget.setHorizontalHeaderItem(0, item)
 
-        # barrier distance and hegith
+        # barrier distance and height
         bHeightLabel = QLabel('Barrier Height')
         bHeightLabel.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         self.editBHeight = QLineEdit('2')
@@ -216,6 +216,7 @@ class MLWindow(QMainWindow):
         bWidthLabel.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         self.editBWidth = QLineEdit('10')
         self.editBWidth.setFixedWidth(100)
+        self.cbToBarrierPos = QCheckBox('Set Distance to Barrier Position')
 
         # Buttons
         btnAddDist = QPushButton('Add Distance')
@@ -241,6 +242,7 @@ class MLWindow(QMainWindow):
         layout.addWidget(self.editBHeight, 9, 1)
         layout.addWidget(bWidthLabel, 9, 2)
         layout.addWidget(self.editBWidth, 9, 3)
+        layout.addWidget(self.cbToBarrierPos, 9, 4)
         layout.addWidget(btnAddDist, 10, 0)
         layout.addWidget(btnAddHeight, 10, 1)
         layout.addWidget(btnRemoveDist, 10, 2)

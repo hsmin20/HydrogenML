@@ -248,19 +248,30 @@ class MLPWindow(MLWindow):
         sDistBarrierPosArray = []
         distBarrierPosArray = []
 
-        for i in range(distCount):
-            dist = self.tableGridWidget.horizontalHeaderItem(i).text()
-            distOnly = dist[1:len(dist) - 1]
-
+        if self.cbToBarrierPos.isChecked() == True:
             for j in range(barrierPosCount):
                 barrierPos = self.tableGridWidget.verticalHeaderItem(j).text()
                 barrierPosOnly = barrierPos[1:len(barrierPos) - 1]
 
-                distf = float(distOnly)
                 barrierPosf = float(barrierPosOnly)
+                distf = float(barrierPosf)
 
-                sDistBarrierPosArray.append(dist + barrierPos)
+                sDistBarrierPosArray.append(barrierPos + barrierPos)
                 distBarrierPosArray.append((distf, barrierPosf))
+        else:
+            for i in range(distCount):
+                dist = self.tableGridWidget.horizontalHeaderItem(i).text()
+                distOnly = dist[1:len(dist) - 1]
+
+                for j in range(barrierPosCount):
+                    barrierPos = self.tableGridWidget.verticalHeaderItem(j).text()
+                    barrierPosOnly = barrierPos[1:len(barrierPos) - 1]
+
+                    distf = float(distOnly)
+                    barrierPosf = float(barrierPosOnly)
+
+                    sDistBarrierPosArray.append(dist + barrierPos)
+                    distBarrierPosArray.append((distf, barrierPosf))
 
         barrierHeight = float(self.editBHeight.text())
         y_array = []
