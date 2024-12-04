@@ -1,5 +1,7 @@
 import sys
 import pandas as pd
+from tensorflow.python.ops.losses.losses_impl import mean_squared_error
+
 pd.options.mode.chained_assignment = None  # default='warn'
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -69,7 +71,7 @@ class LSTMWindow(MLWindow):
         self.editBatch.setFixedWidth(100)
         epochLabel = QLabel('Epoch')
         epochLabel.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-        self.editEpoch = QLineEdit('20')
+        self.editEpoch = QLineEdit('100')
         self.editEpoch.setFixedWidth(100)
         lrLabel = QLabel('Learning Rate')
         self.editLR = QLineEdit('0.0004')
@@ -304,7 +306,8 @@ class LSTMWindow(MLWindow):
             x_display[j][0] = j
 
         r2All = r2_score(y_data, y_pred)
-        title = f'LSTM Validation (R2 = {r2All})'
+        mseAll = mean_squared_error(y_data, y_pred)
+        title = f'LSTM Validation (R2 = {r2All}, MSE = {mseAll})'
 
         plt.figure()
         plt.scatter(x_display, y_data, label='original data', color="red", s=1)

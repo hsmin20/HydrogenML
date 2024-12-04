@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
-from sklearn.metrics import r2_score
+from sklearn.metrics import r2_score, mean_squared_error
 
 NUM_DATA = 1000
 
@@ -75,9 +75,12 @@ class MachineLearner:
     def showResultValid(self, training_history, y_train_data, y_train_pred, y_valid_data, y_valid_pred,
                         y_test_data, y_test_pred):
         r2Train = r2_score(y_train_data, y_train_pred)
+        mseTrain = mean_squared_error(y_train_data, y_train_pred)
         r2Valid = r2_score(y_valid_data, y_valid_pred)
+        mseValid = mean_squared_error(y_valid_data, y_valid_pred)
         if len(y_test_data) > 0:
             r2Test = r2_score(y_test_data, y_test_pred)
+            mseTest = mean_squared_error(y_test_data, y_test_pred)
         else:
             r2Test = 0
 
@@ -102,19 +105,19 @@ class MachineLearner:
 
         axs[0, 0].scatter(x_display2, y_train_data, color="red", s=1)
         axs[0, 0].scatter(x_display2, y_train_pred, color='blue', s=1)
-        title = f'Train Data (R2 = {r2Train})'
+        title = f'Train Data (R2 = {r2Train}, MSE = {mseTrain})'
         axs[0, 0].set_title(title)
         axs[0, 0].grid()
 
         axs[0, 1].scatter(x_display3, y_valid_data, color="red", s=1)
         axs[0, 1].scatter(x_display3, y_valid_pred, color='blue', s=1)
-        title = f'Validation Data (R2 = {r2Valid})'
+        title = f'Validation Data (R2 = {r2Valid}, MSE = {mseValid})'
         axs[0, 1].set_title(title)
         axs[0, 1].grid()
 
         axs[1, 0].scatter(x_display, y_test_data, color="red", s=1)
         axs[1, 0].plot(x_display, y_test_pred, color='blue')
-        title = f'Test Data (R2 = {r2Test})'
+        title = f'Test Data (R2 = {r2Test}, MSE = {mseTest})'
         axs[1, 0].set_title(title)
         axs[1, 0].grid()
 

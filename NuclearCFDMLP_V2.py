@@ -11,7 +11,7 @@ from PyQt5.QtCore import Qt
 import time
 from MachineLearner import MachineLearner, NUM_DATA
 from MLWindow import MLWindow
-from sklearn.metrics import r2_score
+from sklearn.metrics import r2_score, mean_squared_error
 
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
@@ -209,7 +209,8 @@ class MLPWindow(MLWindow):
             x_display[j][0] = j
 
         r2All = r2_score(y_data, y_predicted)
-        title = f'Machine Learning Validation (R2 = {r2All})'
+        mseAll = mean_squared_error(y_data, y_predicted)
+        title = f'Machine Learning Validation (R2 = {r2All}, MSE = {mseAll})'
 
         plt.figure()
         plt.scatter(x_display, y_data, label='original data', color="red", s=1)
