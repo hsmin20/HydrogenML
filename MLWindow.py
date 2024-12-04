@@ -185,12 +185,15 @@ class MLWindow(QMainWindow):
         loadModelBtn.clicked.connect(self.loadModel)
         checkValBtn = QPushButton('Check Trained')
         checkValBtn.clicked.connect(self.checkVal)
+        saveModelJSBtn = QPushButton('Save Model for JS')
+        saveModelJSBtn.clicked.connect(self.saveModelJS)
 
         layout.addWidget(mlWithDataBtn, 0, 0, 1, 1)
         layout.addWidget(self.cbResume, 0, 1, 1, 1)
         layout.addWidget(saveModelBtn, 0, 2, 1, 1)
         layout.addWidget(loadModelBtn, 0, 3, 1, 1)
         layout.addWidget(checkValBtn, 0, 4, 1, 1)
+        layout.addWidget(saveModelJSBtn, 0, 5, 1, 1)
 
         return layout
 
@@ -204,7 +207,7 @@ class MLWindow(QMainWindow):
         item = QTableWidgetItem('')
         self.tableGridWidget.setHorizontalHeaderItem(0, item)
 
-        # barrier distance and hegith
+        # barrier distance and height
         bHeightLabel = QLabel('Barrier Height')
         bHeightLabel.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         self.editBHeight = QLineEdit('2')
@@ -213,6 +216,7 @@ class MLWindow(QMainWindow):
         bWidthLabel.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         self.editBWidth = QLineEdit('10')
         self.editBWidth.setFixedWidth(100)
+        self.cbToBarrierPos = QCheckBox('Set Distance to Barrier Position')
 
         # Buttons
         btnAddDist = QPushButton('Add Distance')
@@ -238,6 +242,7 @@ class MLWindow(QMainWindow):
         layout.addWidget(self.editBHeight, 9, 1)
         layout.addWidget(bWidthLabel, 9, 2)
         layout.addWidget(self.editBWidth, 9, 3)
+        layout.addWidget(self.cbToBarrierPos, 9, 4)
         layout.addWidget(btnAddDist, 10, 0)
         layout.addWidget(btnAddHeight, 10, 1)
         layout.addWidget(btnRemoveDist, 10, 2)
@@ -630,6 +635,14 @@ class MLWindow(QMainWindow):
             self.modelLearner.saveModel(filename[0])
 
         QMessageBox.information(self, 'Saved', 'Model is saved.')
+
+    def saveModelJS(self):
+        suggestion = '/srv/MLData'
+        filename = QFileDialog.getSaveFileName(self, 'Save File', suggestion, "Model")
+        if filename[0] != '':
+            self.modelLearner.saveModelJS(filename[0])
+
+            QMessageBox.information(self, 'Saved', 'Model is saved for Javascript.')
 
     def loadModel(self):
         fname = QFileDialog.getOpenFileName(self, 'Open h5 model file', '/srv/MLData',
