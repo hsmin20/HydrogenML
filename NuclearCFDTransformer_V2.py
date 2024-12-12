@@ -74,6 +74,9 @@ class TransformerWindow(LSTMWindow):
 
         self.modelLearner = TransformerMachineLearner()
 
+    def getName(self):
+        return 'Transformer'
+
     def initMLOption(self):
         layout = QGridLayout()
 

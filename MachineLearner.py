@@ -104,13 +104,13 @@ class MachineLearner:
             x_display[j][0] = j
 
         axs[0, 0].scatter(x_display2, y_train_data, color="red", s=1)
-        axs[0, 0].scatter(x_display2, y_train_pred, color='blue', s=1)
+        axs[0, 0].plot(x_display2, y_train_pred, color='blue')
         title = f'Train Data (R2 = {r2Train}, MSE = {mseTrain})'
         axs[0, 0].set_title(title)
         axs[0, 0].grid()
 
         axs[0, 1].scatter(x_display3, y_valid_data, color="red", s=1)
-        axs[0, 1].scatter(x_display3, y_valid_pred, color='blue', s=1)
+        axs[0, 1].plot(x_display3, y_valid_pred, color='blue')
         title = f'Validation Data (R2 = {r2Valid}, MSE = {mseValid})'
         axs[0, 1].set_title(title)
         axs[0, 1].grid()

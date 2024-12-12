@@ -209,7 +209,7 @@ class MLPWindow(MLWindow):
 
         r2All = r2_score(y_data, y_predicted)
         mseAll = mean_squared_error(y_data, y_predicted)
-        title = f'Machine Learning Validation (R2 = {r2All}, MSE = {mseAll})'
+        title = f'Machine Learning Validation (R2 = {r2All : 2.5f}, MSE = {mseAll : 2.5f})'
 
         plt.figure()
         plt.scatter(x_display, y_data, label='original data', color="red", s=1)

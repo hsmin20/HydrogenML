@@ -62,6 +62,9 @@ class LSTMWindow(MLWindow):
 
         self.modelLearner = LSTMMachineLearner()
 
+    def getName(self):
+        return 'LSTM'
+
     def initMLOption(self):
         layout = QGridLayout()
 
@@ -307,7 +310,8 @@ class LSTMWindow(MLWindow):
 
         r2All = r2_score(y_data, y_pred)
         mseAll = mean_squared_error(y_data, y_pred)
-        title = f'LSTM Validation (R2 = {r2All}, MSE = {mseAll})'
+        name = self.getName()
+        title = f'{name} Validation (R2 = {r2All : 2.5f}, MSE = {mseAll : 2.5f})'
 
         plt.figure()
         plt.scatter(x_display, y_data, label='original data', color="red", s=1)
