@@ -532,7 +532,7 @@ class MLWindow(QMainWindow):
             plt.scatter(t_data, s_data, label=sensorName, s=1)
 
         plt.title('Pressure Graph')
-        plt.xlabel('time (ms)')
+        plt.xlabel('time (s)')
         plt.ylabel('pressure (kPa)')
         plt.legend(loc='upper right', markerscale=4.)
         plt.grid()
